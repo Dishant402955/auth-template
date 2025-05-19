@@ -15,6 +15,20 @@
       "when": 1747668153193,
       "tag": "0001_swift_zuras",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1747670586330,
+      "tag": "0002_next_jack_power",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1747670803102,
+      "tag": "0003_mysterious_titanium_man",
+      "breakpoints": true
     }
   ]
 }
