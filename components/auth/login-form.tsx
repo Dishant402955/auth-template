@@ -2,6 +2,7 @@
 
 import * as z from "zod";
 
+import { useState, useTransition } from "react";
 import { LoginSchema } from "@/schemas";
 
 import { useForm } from "react-hook-form";
@@ -20,11 +21,15 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
+import { login } from "@/actions/login";
 
 export const LoginForm = () => {
-	const form = useForm<
-		z.infer<typeof LoginSchema>
-	>({
+	const [isPending, startTransition] = useTransition();
+
+	const [error, setError] = useState<string | undefined>("");
+	const [success, setSuccess] = useState<string | undefined>("");
+
+	const form = useForm<z.infer<typeof LoginSchema>>({
 		resolver: zodResolver(LoginSchema),
 		defaultValues: {
 			email: "",
@@ -32,10 +37,16 @@ export const LoginForm = () => {
 		},
 	});
 
-	const onSubmit = (
-		values: z.infer<typeof LoginSchema>
-	) => {
-		console.log(values);
+	const onSubmit = (values: z.infer<typeof LoginSchema>) => {
+		startTransition(() => {
+			setError("");
+			setSuccess("");
+
+			login(values).then((data) => {
+				setError(data.error);
+				setSuccess(data.success);
+			});
+		});
 	};
 
 	return (
@@ -63,6 +74,7 @@ export const LoginForm = () => {
 											placeholder="john@doe.com"
 											className="w-full"
 											type="email"
+											disabled={isPending}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -82,6 +94,7 @@ export const LoginForm = () => {
 											placeholder="******"
 											className="w-full"
 											type="password"
+											disabled={isPending}
 										/>
 									</FormControl>
 									<FormMessage />
@@ -89,12 +102,9 @@ export const LoginForm = () => {
 							)}
 						/>
 					</div>
-					<FormError message="" />
-					<FormSuccess message="" />
-					<Button
-						type="submit"
-						className="w-full"
-					>
+					<FormError message={error} />
+					<FormSuccess message={success} />
+					<Button type="submit" className="w-full" disabled={isPending}>
 						Login
 					</Button>
 				</form>

@@ -1,12 +1,10 @@
 import { BsExclamationTriangle } from "react-icons/bs";
 
 interface FromErrorProps {
-	message: string;
+	message: string | undefined;
 }
 
-export const FormError = ({
-	message,
-}: FromErrorProps) => {
+export const FormError = ({ message }: FromErrorProps) => {
 	if (!message) return null;
 
 	return (

@@ -1,12 +1,10 @@
 import { BsCheckCircle } from "react-icons/bs";
 
 interface FromSuccessProps {
-	message: string;
+	message: string | undefined;
 }
 
-export const FormSuccess = ({
-	message,
-}: FromSuccessProps) => {
+export const FormSuccess = ({ message }: FromSuccessProps) => {
 	if (!message) return null;
 
 	return (
