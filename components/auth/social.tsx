@@ -11,7 +11,7 @@ const Social = () => {
 	return (
 		<div className="w-full flex flex-col items-center gap-x-4">
 			<Button
-				className="w-[90%] my-2"
+				className="w-[90%] my-1"
 				size={"lg"}
 				variant={"custom"}
 				onClick={() => {}}
@@ -20,7 +20,7 @@ const Social = () => {
 			</Button>
 
 			<Button
-				className="w-[90%] my-2"
+				className="w-[90%] my-1"
 				size={"lg"}
 				variant={"custom"}
 				onClick={() => {}}

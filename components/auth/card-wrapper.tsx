@@ -37,7 +37,7 @@ export const CardWrapper = ({
 				<Header label={headerLabel} />
 			</CardHeader>
 
-			<CardContent className="flex justify-center items-center ">
+			<CardContent className="flex justify-center items-center w-full">
 				{children}
 			</CardContent>
 
