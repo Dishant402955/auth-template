@@ -1,14 +1,14 @@
 import { CardWrapper } from "./card-wrapper";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
 	return (
 		<CardWrapper
 			headerLabel="Welcome Back"
-			backButtonHref="/register"
-			backButtonLabel="Don't Have an Account ?"
+			backButtonHref="/login"
+			backButtonLabel="Already Have an Account ?"
 			showSocial={true}
 		>
-			<h1>Login Form</h1>
+			<h1>Register Form</h1>
 		</CardWrapper>
 	);
 };
