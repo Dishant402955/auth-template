@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/card";
 import Header from "@/components/auth/header";
 import Social from "@/components/auth/social";
+import BackButton from "./back-button";
 
 interface CardWrapperProps {
 	children: React.ReactNode;
@@ -46,12 +47,10 @@ export const CardWrapper = ({
 				</CardFooter>
 			)}
 			<CardFooter className="flex justify-center items-center">
-				<span
-					className={"cursor-pointer underline"}
-					onClick={onClick}
-				>
-					{backButtonLabel}
-				</span>
+				<BackButton
+					href={backButtonHref}
+					label={backButtonLabel}
+				/>
 			</CardFooter>
 		</Card>
 	);
