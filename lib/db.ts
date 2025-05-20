@@ -1,4 +1,4 @@
-import "dotenv/config";
+import { eq } from "drizzle-orm";
 
 import { drizzle } from "drizzle-orm/neon-http";
 
@@ -52,6 +52,16 @@ export const accounts = pgTable(
 		},
 	]
 );
+
+export async function getUserByEmail(email: string) {
+	const user = await db
+		.select()
+		.from(users)
+		.where(eq(users.email, email))
+		.limit(1);
+
+	return user;
+}
 
 // async function main() {
 // 	const user: typeof usersTable.$inferInsert = {

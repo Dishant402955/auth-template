@@ -68,7 +68,7 @@ export const RegisterForm = () => {
 							name="name"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Email</FormLabel>
+									<FormLabel>Name</FormLabel>
 									<FormControl>
 										<Input
 											{...field}
@@ -108,7 +108,7 @@ export const RegisterForm = () => {
 							name="password"
 							render={({ field }) => (
 								<FormItem>
-									<FormLabel>Email</FormLabel>
+									<FormLabel>Password</FormLabel>
 									<FormControl>
 										<Input
 											{...field}
@@ -126,7 +126,7 @@ export const RegisterForm = () => {
 					<FormError message={error} />
 					<FormSuccess message={success} />
 					<Button type="submit" className="w-full" disabled={isPending}>
-						Login
+						Create Account
 					</Button>
 				</form>
 			</Form>

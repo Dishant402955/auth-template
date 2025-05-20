@@ -2,7 +2,7 @@
 
 import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import { db, users } from "@/lib/db";
 import { eq } from "drizzle-orm";
 
