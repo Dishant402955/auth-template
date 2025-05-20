@@ -13,7 +13,7 @@ import {
 	pgEnum,
 } from "drizzle-orm/pg-core";
 
-import type { AdapterAccountType } from "next-auth/adapters";
+import { AdapterAccountType } from "next-auth/adapters";
 
 export const db = drizzle(process.env.DB_URI!);
 
@@ -55,6 +55,26 @@ export const accounts = pgTable(
 			}),
 		},
 	]
+);
+
+export const sessions = pgTable("session", {
+	sessionToken: text("sessionToken").primaryKey(),
+	userId: text("userId")
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
+	expires: timestamp("expires", { mode: "date" }).notNull(),
+});
+
+export const verificationTokens = pgTable(
+	"verification_token",
+	{
+		identifier: text("identifier").notNull(),
+		token: text("token").notNull(),
+		expires: timestamp("expires", { mode: "date" }).notNull(),
+	},
+	(vt) => ({
+		compoundPk: primaryKey({ columns: [vt.identifier, vt.token] }),
+	})
 );
 
 export async function getUserByEmail(email: string) {

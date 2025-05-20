@@ -32,7 +32,7 @@ export const CardWrapper = ({
 	};
 
 	return (
-		<Card className="w-[400px] shadow-medium bg-emerald-100/100 shadow-2xl shadow-emerald-900">
+		<Card className="w-[400px] shadow-medium bg-emerald-100/1 shadow-2xl shadow-emerald-900">
 			<CardHeader>
 				<Header label={headerLabel} />
 			</CardHeader>
@@ -47,10 +47,7 @@ export const CardWrapper = ({
 				</CardFooter>
 			)}
 			<CardFooter className="flex justify-center items-center">
-				<BackButton
-					href={backButtonHref}
-					label={backButtonLabel}
-				/>
+				<BackButton href={backButtonHref} label={backButtonLabel} />
 			</CardFooter>
 		</Card>
 	);

@@ -3,10 +3,27 @@ import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import Github from "next-auth/providers/github";
 import { LoginSchema } from "./schemas";
-import { getUserByEmail, getUserById } from "./lib/db";
+import { db, getUserByEmail, getUserById, users, accounts } from "./lib/db";
 import bcrypt from "bcryptjs";
+import { DrizzleAdapter } from "@auth/drizzle-adapter";
+import { eq } from "drizzle-orm";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
+	pages: {
+		signIn: "/login",
+		error: "/autherror",
+	},
+	events: {
+		async linkAccount({ user }) {
+			if (user?.id) {
+				await db
+					.update(users)
+					.set({ emailVerified: new Date() })
+					.where(eq(users.id, user.id));
+			}
+		},
+	},
+	adapter: DrizzleAdapter(db, { usersTable: users, accountsTable: accounts }),
 	providers: [
 		Github({
 			clientId: process.env.GITHUB_CLIENT_ID,
@@ -44,17 +61,26 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 		}),
 	],
 	callbacks: {
-		async session({ session, token }) {
-			if (token.sub && session.user) {
-				session.user.id = token.sub;
-			}
+		// async session({ session, token }) {
+		// 	if (token.sub && session.user) {
+		// 		session.user.id = token.sub;
+		// 	}
 
-			if (token.role && session.user) {
-				session.user.role = token.role as "ADMIN" | "USER";
-			}
+		// 	if (token.role && session.user) {
+		// 		session.user.role = token.role as "ADMIN" | "USER";
+		// 	}
+
+		// 	return session;
+		// },
+		async session({ session, token }) {
+			if (!token || !session.user) return session;
+
+			session.user.id = token.sub as string;
+			session.user.role = token.role as "ADMIN" | "USER";
 
 			return session;
 		},
+
 		async jwt({ token }) {
 			if (!token.sub) {
 				return token;
