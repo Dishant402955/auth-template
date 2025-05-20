@@ -43,8 +43,10 @@ export const LoginForm = () => {
 			setSuccess("");
 
 			login(values).then((data) => {
-				setError(data.error);
-				setSuccess(data.success);
+				setError(data?.error);
+				if (!data?.error) {
+					setSuccess("Login Successful!");
+				}
 			});
 		});
 	};

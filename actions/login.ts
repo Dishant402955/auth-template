@@ -7,8 +7,6 @@ import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
-	console.log(values);
-
 	const validatedFields = LoginSchema.safeParse(values);
 
 	if (!validatedFields.success) {
@@ -21,6 +19,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 		await signIn("credentials", {
 			email,
 			password,
+			redirect: true,
 			redirectTo: DEFAULT_LOGIN_REDIRECT,
 		});
 	} catch (error) {
