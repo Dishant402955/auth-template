@@ -1,15 +1,20 @@
-"use client";
-
+import { signOut } from "@/auth";
 import { Button } from "../ui/button";
 
 const UserProfile = ({ session }: any) => {
 	return (
-		<>
-			<p className="text-3xl font-semibold mt-16">
-				hello👋 {session.user?.email}
-			</p>
-			{/* <Button onClick={}>Sign Out</Button> */}
-		</>
+		<div className="flex flex-col p-4 gap-y-6">
+			<p className="text-3xl font-semibold">hello👋 {session.user?.email}</p>
+			<form
+				action={async () => {
+					"use server";
+
+					await signOut();
+				}}
+			>
+				<Button type="submit">Sign Out</Button>
+			</form>
+		</div>
 	);
 };
 
