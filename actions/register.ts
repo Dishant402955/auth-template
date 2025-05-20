@@ -23,7 +23,6 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 		.where(eq(users.email, email));
 
 	if (existingUser[0]) {
-		console.log(existingUser);
 		return { error: "Email is already taken" };
 	}
 
@@ -31,6 +30,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 		name,
 		email,
 		password: hashedPassword,
+		role: "USER",
 	};
 
 	const res = await db.insert(users).values(user);

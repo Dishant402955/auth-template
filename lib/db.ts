@@ -10,11 +10,14 @@ import {
 	primaryKey,
 	integer,
 	varchar,
+	pgEnum,
 } from "drizzle-orm/pg-core";
 
 import type { AdapterAccountType } from "next-auth/adapters";
 
 export const db = drizzle(process.env.DB_URI!);
+
+export const userRoleEnum = pgEnum("role", ["ADMIN", "USER"]);
 
 export const users = pgTable("user", {
 	id: text("id")
@@ -25,6 +28,7 @@ export const users = pgTable("user", {
 	emailVerified: timestamp("emailVerified", { mode: "date" }),
 	image: text("image"),
 	password: text("password"),
+	role: userRoleEnum("role").default("USER"),
 });
 
 export const accounts = pgTable(
@@ -63,6 +67,11 @@ export async function getUserByEmail(email: string) {
 	return user;
 }
 
+export async function getUserById(id: string) {
+	const user = await db.select().from(users).where(eq(users.id, id)).limit(1);
+
+	return user;
+}
 // async function main() {
 // 	const user: typeof usersTable.$inferInsert = {
 // 		name: "John",

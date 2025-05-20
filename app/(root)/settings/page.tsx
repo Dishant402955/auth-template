@@ -1,16 +1,17 @@
-"use client";
-
+import { auth } from "@/auth";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-const Settings = () => {
+const Settings = async () => {
+	const session = await auth();
+
 	return (
 		<>
-			<Link href={"/"} className="absolute left-[26rem] top-7">
+			<Link href={"/"} className="absolute top-[10rem] left-8">
 				<Button size={"lg"}>Home</Button>
 			</Link>
-			<p className="text-5xl font-semibold m-10 flex justify-center items-center h-[100%]">
-				Settings Page
+			<p className="font-semibold m-10 flex justify-center items-center h-[100%]">
+				{session && JSON.stringify(session.user)}
 			</p>
 		</>
 	);
