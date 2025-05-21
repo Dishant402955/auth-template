@@ -5,6 +5,8 @@ import { ScaleLoader as Loader } from "react-spinners";
 import { useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { newVerification } from "@/actions/verificationToken";
+import { FormError } from "../form-error";
+import { FormSuccess } from "../form-success";
 
 const NewVerificationForm = () => {
 	const searchParams = useSearchParams();
@@ -14,13 +16,16 @@ const NewVerificationForm = () => {
 	const token = searchParams.get("token");
 
 	const onSubmit = useCallback(async () => {
+		if (success || error) {
+			return;
+		}
 		if (!token) {
 			setError("Verification Token Does not Exists.");
 		}
 		const res = await newVerification(token!);
 		setSuccess(res.success);
 		setError(res.error);
-	}, [token]);
+	}, [token, success, error]);
 
 	useEffect(() => {
 		onSubmit();
@@ -33,14 +38,11 @@ const NewVerificationForm = () => {
 			backButtonHref="/login"
 			showSocial={false}
 		>
-			{!error && !success ? (
-				<div className="flex justify-center items-center w-full my-4">
-					<Loader />
-				</div>
-			) : null}
-
-			{error ? <p>{error}</p> : null}
-			{success ? <p>{success}</p> : null}
+			<div className="flex justify-center items-center w-full my-4">
+				{!error && !success ? <Loader /> : null}
+				{!success && <FormError message={error} />}
+				{!error && <FormSuccess message={success} />}
+			</div>
 		</CardWrapper>
 	);
 };

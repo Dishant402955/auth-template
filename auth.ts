@@ -73,7 +73,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 				return false;
 			}
 
-			console.log(existingUser);
 			return true;
 		},
 		async session({ session, token }) {
