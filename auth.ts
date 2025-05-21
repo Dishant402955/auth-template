@@ -9,6 +9,9 @@ import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { eq } from "drizzle-orm";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
+	session: {
+		strategy: "jwt", // <-- force JWT session instead of database sessions
+	},
 	pages: {
 		signIn: "/login",
 		error: "/autherror",
