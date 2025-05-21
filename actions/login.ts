@@ -5,15 +5,32 @@ import * as z from "zod";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
+import { generateVerificationToken, getUserByEmail } from "@/lib/db";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
 	const validatedFields = LoginSchema.safeParse(values);
 
 	if (!validatedFields.success) {
-		return { error: "Invalid Fields!" };
+		return { error: "Invalid Fields !" };
 	}
 
 	const { email, password } = validatedFields.data;
+
+	const existingUser = await getUserByEmail(email);
+
+	if (!existingUser[0] || !existingUser[0]?.email) {
+		return { error: "Email does not exist !" };
+	}
+
+	if (!existingUser[0]?.password) {
+		return { error: "Please try using valid Provider !" };
+	}
+
+	if (!existingUser[0].emailVerified) {
+		const token = generateVerificationToken(existingUser[0].email);
+
+		return { success: "Verification Email Sent !" };
+	}
 
 	try {
 		await signIn("credentials", {

@@ -61,17 +61,19 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 		}),
 	],
 	callbacks: {
-		// async session({ session, token }) {
-		// 	if (token.sub && session.user) {
-		// 		session.user.id = token.sub;
-		// 	}
+		async signIn({ user, account }) {
+			if (account?.provider !== "credentials") {
+				return true;
+			}
 
-		// 	if (token.role && session.user) {
-		// 		session.user.role = token.role as "ADMIN" | "USER";
-		// 	}
+			const existingUser = await getUserById(user.id!);
 
-		// 	return session;
-		// },
+			if (!existingUser[0].emailVerified) {
+				return false;
+			}
+
+			return true;
+		},
 		async session({ session, token }) {
 			if (!token || !session.user) return session;
 
