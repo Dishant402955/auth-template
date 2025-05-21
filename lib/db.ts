@@ -81,6 +81,21 @@ export const verificationTokens = pgTable(
 	})
 );
 
+export const passwordResetTokens = pgTable(
+	"password_reset_token",
+	{
+		id: text("id")
+			.notNull()
+			.$defaultFn(() => crypto.randomUUID()),
+		email: text("email"),
+		token: text("token").notNull().unique(),
+		expires: timestamp("expires", { mode: "date" }).notNull(),
+	},
+	(vt) => ({
+		compoundPk: primaryKey({ columns: [vt.email, vt.token] }),
+	})
+);
+
 export async function getUserByEmail(email: string) {
 	const user = await db
 		.select()
@@ -137,6 +152,50 @@ export const generateVerificationToken = async (email: string) => {
 	});
 
 	const verification_token = await getVerificationTokenByEmail(email);
+
+	return verification_token;
+};
+
+export const getPasswordResetTokenByEmail = async (email: string) => {
+	try {
+		const token = await db
+			.select()
+			.from(passwordResetTokens)
+			.where(eq(passwordResetTokens.email, email));
+
+		return token[0];
+	} catch (error) {}
+};
+
+export const getPasswordResetTokenByToken = async (token: string) => {
+	try {
+		const res = await db
+			.select()
+			.from(passwordResetTokens)
+			.where(eq(passwordResetTokens.token, token));
+
+		return res[0];
+	} catch (error) {}
+};
+
+export const generatePasswordResetToken = async (email: string) => {
+	const token = uuidv4();
+	const expires = new Date(new Date().getTime() + 3600 * 1000);
+	const existingToken = await getPasswordResetTokenByEmail(email);
+
+	if (existingToken) {
+		await db
+			.delete(passwordResetTokens)
+			.where(eq(passwordResetTokens.id, existingToken.id));
+	}
+
+	await db.insert(passwordResetTokens).values({
+		email,
+		token,
+		expires,
+	});
+
+	const verification_token = await getPasswordResetTokenByEmail(email);
 
 	return verification_token;
 };

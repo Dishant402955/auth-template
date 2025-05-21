@@ -20,7 +20,7 @@ const NewVerificationForm = () => {
 			return;
 		}
 		if (!token) {
-			setError("Verification Token Does not Exists.");
+			setError("Verification Token Does not Exist.");
 		}
 		const res = await newVerification(token!);
 		setSuccess(res.success);

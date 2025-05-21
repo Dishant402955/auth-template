@@ -6,7 +6,7 @@ import bcrypt from "bcryptjs";
 import { db, users, verificationTokens } from "@/lib/db";
 import { eq } from "drizzle-orm";
 import { generateVerificationToken } from "@/lib/db";
-import sendVerificationTokenMail from "@/lib/mail";
+import { sendVerificationTokenMail } from "@/lib/mail";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
 	const validatedFields = RegisterSchema.safeParse(values);
@@ -35,7 +35,7 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 		role: "USER",
 	};
 
-	const res = await db.insert(users).values(user);
+	await db.insert(users).values(user);
 
 	const verificationToken = await generateVerificationToken(email);
 
