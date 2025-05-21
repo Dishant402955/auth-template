@@ -36,7 +36,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 		Credentials({
 			async authorize(credentials) {
 				const validatedFields = LoginSchema.safeParse(credentials);
-
 				if (validatedFields.success) {
 					const { email, password } = validatedFields.data;
 
@@ -55,7 +54,6 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 						return user[0];
 					}
 				}
-
 				return null;
 			},
 		}),
@@ -72,6 +70,7 @@ export const { auth, handlers, signIn, signOut } = NextAuth({
 				return false;
 			}
 
+			console.log(existingUser);
 			return true;
 		},
 		async session({ session, token }) {

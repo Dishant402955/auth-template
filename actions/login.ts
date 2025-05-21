@@ -37,12 +37,14 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 	}
 
 	try {
-		await signIn("credentials", {
+		console.log("Done");
+		const res = await signIn("credentials", {
 			email,
 			password,
 			redirect: true,
 			redirectTo: DEFAULT_LOGIN_REDIRECT,
 		});
+		console.log("DDone", res);
 	} catch (error) {
 		if (error instanceof AuthError) {
 			switch (error.type) {
