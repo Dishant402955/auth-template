@@ -32,7 +32,7 @@ export const CardWrapper = ({
 	};
 
 	return (
-		<Card className="w-[400px] shadow-medium bg-emerald-100/1 shadow-2xl shadow-emerald-900">
+		<Card className="w-[400px] shadow-medium bg-indigo-700/10 shadow-2xl shadow-emerald-900">
 			<CardHeader>
 				<Header label={headerLabel} />
 			</CardHeader>

@@ -8,7 +8,7 @@ export const FormError = ({ message }: FromErrorProps) => {
 	if (!message) return null;
 
 	return (
-		<div className="w-full bg-red-200 text-red-900 flex p-2 gap-x-3 justify-center items-center rounded-sm">
+		<div className="w-full text-sm bg-red-200 text-red-900 flex p-2 gap-x-3 justify-center items-center rounded-sm">
 			<BsExclamationTriangle />
 			<p>{message}</p>
 		</div>

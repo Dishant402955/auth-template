@@ -50,9 +50,8 @@ export const LoginForm = () => {
 
 			login(values).then((data) => {
 				setError(data?.error);
-				if (!data?.error) {
-					setSuccess("Login Successful!");
-				}
+
+				setSuccess(data?.success);
 			});
 		});
 	};

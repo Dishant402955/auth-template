@@ -3,8 +3,9 @@
 import { RegisterSchema } from "@/schemas";
 import * as z from "zod";
 import bcrypt from "bcryptjs";
-import { db, users } from "@/lib/db";
+import { db, users, verificationTokens } from "@/lib/db";
 import { eq } from "drizzle-orm";
+import { generateVerificationToken } from "@/lib/db";
 
 export const register = async (values: z.infer<typeof RegisterSchema>) => {
 	const validatedFields = RegisterSchema.safeParse(values);
@@ -34,7 +35,8 @@ export const register = async (values: z.infer<typeof RegisterSchema>) => {
 	};
 
 	const res = await db.insert(users).values(user);
-	console.log("New user created!", res);
 
-	return { success: "Email Sent!" };
+	const verificationToken = await generateVerificationToken(email);
+
+	return { success: "Verification Email Sent!" };
 };

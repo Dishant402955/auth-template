@@ -14,6 +14,7 @@ import {
 } from "drizzle-orm/pg-core";
 
 import { AdapterAccountType } from "next-auth/adapters";
+import { v4 as uuidv4 } from "uuid";
 
 export const db = drizzle(process.env.DB_URI!);
 
@@ -68,12 +69,15 @@ export const sessions = pgTable("session", {
 export const verificationTokens = pgTable(
 	"verification_token",
 	{
-		identifier: text("identifier").notNull(),
-		token: text("token").notNull(),
+		id: text("id")
+			.notNull()
+			.$defaultFn(() => crypto.randomUUID()),
+		email: text("email"),
+		token: text("token").notNull().unique(),
 		expires: timestamp("expires", { mode: "date" }).notNull(),
 	},
 	(vt) => ({
-		compoundPk: primaryKey({ columns: [vt.identifier, vt.token] }),
+		compoundPk: primaryKey({ columns: [vt.email, vt.token] }),
 	})
 );
 
@@ -92,16 +96,47 @@ export async function getUserById(id: string) {
 
 	return user;
 }
-// async function main() {
-// 	const user: typeof usersTable.$inferInsert = {
-// 		name: "John",
-// 		email: "john@example.com",
-// 		password: "123456",
-// 	};
 
-// 	await db.insert(usersTable).values(user);
-// 	console.log("New user created!");
+export const getVerificationTokenByEmail = async (email: string) => {
+	try {
+		const token = await db
+			.select()
+			.from(verificationTokens)
+			.where(eq(verificationTokens.email, email));
 
-// 	const users = await db.select().from(usersTable);
-// 	console.log("Getting all users from the database: ", users);
-// }
+		return token[0];
+	} catch (error) {}
+};
+
+export const getVerificationTokenByToken = async (token: string) => {
+	try {
+		const res = await db
+			.select()
+			.from(verificationTokens)
+			.where(eq(verificationTokens.token, token));
+
+		return res[0];
+	} catch (error) {}
+};
+
+export const generateVerificationToken = async (email: string) => {
+	const token = uuidv4();
+	const expires = new Date(new Date().getTime() + 3600 * 1000);
+	const existingToken = await getVerificationTokenByEmail(email);
+
+	if (existingToken) {
+		await db
+			.delete(verificationTokens)
+			.where(eq(verificationTokens.id, existingToken.id));
+	}
+
+	await db.insert(verificationTokens).values({
+		email,
+		token,
+		expires,
+	});
+
+	const verification_token = await getVerificationTokenByEmail(email);
+
+	return verification_token;
+};
