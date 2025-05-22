@@ -7,10 +7,10 @@ const Navbar = async () => {
 	const session = await auth();
 
 	return (
-		<div className="absolute left-8 top-6 shadow-2xl bg-emerald-900 text-white rounded-2xl">
+		<div className="absolute left-8 top-6 shadow-2xl bg-white/20 rounded-2xl text-white">
 			{!session && (
 				<LoginButton mode={"redirect"}>
-					<Button variant={"default"} size={"lg"} className={"m-2"}>
+					<Button variant={"secondary"} size={"lg"} className={"m-2"}>
 						Sign In
 					</Button>
 				</LoginButton>

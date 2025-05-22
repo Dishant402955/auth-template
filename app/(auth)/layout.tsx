@@ -13,9 +13,11 @@ export const metadata: Metadata = {
 const AuthLayout = ({ children }: { children: React.ReactNode }) => {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body className="bg-radial from-emerald-100 to-emerald-800">
+			<body className="bg-neutral-900 text-white">
 				<Link href={"/"} className="absolute left-8 top-6">
-					<Button size={"lg"}>Home</Button>
+					<Button size={"lg"} variant={"secondary"}>
+						Home
+					</Button>
 				</Link>
 				<div className={"flex h-full justify-center items-center"}>
 					{children}

@@ -16,7 +16,7 @@ export default async function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body className="bg-radial from-emerald-100 to-emerald-800">
+			<body className="bg-neutral-900">
 				<Navbar />
 				{children}
 			</body>

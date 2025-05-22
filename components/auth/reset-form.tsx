@@ -84,7 +84,12 @@ export const ResetForm = () => {
 					</div>
 					<FormError message={error} />
 					<FormSuccess message={success} />
-					<Button type="submit" className="w-full" disabled={isPending}>
+					<Button
+						type="submit"
+						className="w-full"
+						disabled={isPending}
+						variant={"secondary"}
+					>
 						Send Reset Link
 					</Button>
 				</form>

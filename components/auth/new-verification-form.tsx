@@ -38,7 +38,7 @@ const NewVerificationForm = () => {
 			backButtonHref="/login"
 			showSocial={false}
 		>
-			<div className="flex justify-center items-center w-full my-4">
+			<div className="flex justify-center items-center  my-4 w-[85%]">
 				{!error && !success ? <Loader /> : null}
 				{!success && <FormError message={error} />}
 				{!error && <FormSuccess message={success} />}

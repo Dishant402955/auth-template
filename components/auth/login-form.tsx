@@ -109,7 +109,7 @@ export const LoginForm = () => {
 									<Button
 										size={"sm"}
 										variant={"link"}
-										className="relative -left-25 -top-2 text-muted-foreground"
+										className="relative -left-25 -top-2 text-neutral-50/50"
 									>
 										<Link href={"/reset"}>Forgot Password?</Link>
 									</Button>
@@ -119,7 +119,12 @@ export const LoginForm = () => {
 					</div>
 					<FormError message={error || urlError} />
 					<FormSuccess message={success} />
-					<Button type="submit" className="w-full" disabled={isPending}>
+					<Button
+						type="submit"
+						className="w-full"
+						disabled={isPending}
+						variant={"secondary"}
+					>
 						Login
 					</Button>
 				</form>

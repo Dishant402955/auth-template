@@ -32,7 +32,7 @@ export const CardWrapper = ({
 	};
 
 	return (
-		<Card className="w-[400px] shadow-medium bg-indigo-700/10 shadow-2xl shadow-emerald-900">
+		<Card className="w-[400px] shadow-medium  shadow-2xl  bg-neutral-950/40 text-white">
 			<CardHeader>
 				<Header label={headerLabel} />
 			</CardHeader>
@@ -46,7 +46,7 @@ export const CardWrapper = ({
 					<Social />
 				</CardFooter>
 			)}
-			<CardFooter className="flex justify-center items-center">
+			<CardFooter className="flex justify-center items-center ">
 				<BackButton href={backButtonHref} label={backButtonLabel} />
 			</CardFooter>
 		</Card>

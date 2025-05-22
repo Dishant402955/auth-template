@@ -8,7 +8,9 @@ const Settings = async () => {
 	return (
 		<>
 			<Link href={"/"} className="absolute top-[10rem] left-8">
-				<Button size={"lg"}>Home</Button>
+				<Button size={"lg"} variant={"secondary"}>
+					Home
+				</Button>
 			</Link>
 			<p className="font-semibold m-10 flex justify-center items-center h-[100%]">
 				{session && JSON.stringify(session.user)}

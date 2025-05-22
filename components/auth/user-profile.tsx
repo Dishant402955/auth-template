@@ -12,7 +12,9 @@ const UserProfile = ({ session }: any) => {
 					await signOut();
 				}}
 			>
-				<Button type="submit">Sign Out</Button>
+				<Button type="submit" variant={"secondary"}>
+					Sign Out
+				</Button>
 			</form>
 		</div>
 	);

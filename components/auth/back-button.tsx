@@ -7,15 +7,9 @@ interface BackButtonProps {
 	label: string;
 }
 
-const BackButton = ({
-	href,
-	label,
-}: BackButtonProps) => {
+const BackButton = ({ href, label }: BackButtonProps) => {
 	return (
-		<Button
-			variant={"link"}
-			className="font-normal w-full"
-		>
+		<Button variant={"link"} className="font-normal w-full text-neutral-50/50">
 			<Link href={href}>{label}</Link>
 		</Button>
 	);
