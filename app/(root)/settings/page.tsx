@@ -12,7 +12,7 @@ const Settings = async () => {
 					Home
 				</Button>
 			</Link>
-			<p className="font-semibold m-10 flex justify-center items-center h-[100%]">
+			<p className="font-semibold m-10 flex justify-center items-center h-[100%] text-white">
 				{session && JSON.stringify(session.user)}
 			</p>
 		</>

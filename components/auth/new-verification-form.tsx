@@ -39,7 +39,7 @@ const NewVerificationForm = () => {
 			showSocial={false}
 		>
 			<div className="flex justify-center items-center  my-4 w-[85%]">
-				{!error && !success ? <Loader /> : null}
+				{!error && !success ? <Loader color="000000" /> : null}
 				{!success && <FormError message={error} />}
 				{!error && <FormSuccess message={success} />}
 			</div>
