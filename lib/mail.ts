@@ -29,6 +29,6 @@ export async function sendPasswordResetTokenMail(email: string, token: string) {
 		from: "Authjs Template",
 		to: email,
 		subject: "Reset Your Password",
-		html: `<p>Click <a href="${link}">Here</a> to reser your password`,
+		html: `<p>Click <a href="${link}">Here</a> to reset your password`,
 	});
 }

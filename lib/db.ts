@@ -30,6 +30,15 @@ export const users = pgTable("user", {
 	image: text("image"),
 	password: text("password"),
 	role: userRoleEnum("role").default("USER"),
+	isTwoFactoredEnabled: boolean("isTwoFactoredEnabled").default(false),
+});
+
+export const TwoFactorConfirmation = pgTable("twoFactorConfirmation", {
+	id: text("id").$defaultFn(() => crypto.randomUUID()),
+	userId: text("userId")
+		.primaryKey()
+		.notNull()
+		.references(() => users.id, { onDelete: "cascade" }),
 });
 
 export const accounts = pgTable(
@@ -83,6 +92,21 @@ export const verificationTokens = pgTable(
 
 export const passwordResetTokens = pgTable(
 	"password_reset_token",
+	{
+		id: text("id")
+			.notNull()
+			.$defaultFn(() => crypto.randomUUID()),
+		email: text("email"),
+		token: text("token").notNull().unique(),
+		expires: timestamp("expires", { mode: "date" }).notNull(),
+	},
+	(vt) => ({
+		compoundPk: primaryKey({ columns: [vt.email, vt.token] }),
+	})
+);
+
+export const twoFactorTokens = pgTable(
+	"two_factor_token",
 	{
 		id: text("id")
 			.notNull()
