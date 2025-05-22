@@ -30,7 +30,7 @@ export const users = pgTable("user", {
 	image: text("image"),
 	password: text("password"),
 	role: userRoleEnum("role").default("USER"),
-	isTwoFactoredEnabled: boolean("isTwoFactoredEnabled").default(false),
+	isTwoFactoredEnabled: boolean("is_two_factored_enabled").default(false),
 });
 
 export const TwoFactorConfirmation = pgTable("twoFactorConfirmation", {
