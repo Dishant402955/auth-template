@@ -12,7 +12,7 @@ const transporter = nodemailer.createTransport({
 });
 
 export async function sendVerificationTokenMail(email: string, token: string) {
-	const link = `http://localhost:3000/new-verification?token=${token}`;
+	const link = `${process.env.ORIGIN}/new-verification?token=${token}`;
 
 	await transporter.sendMail({
 		from: "Authjs Template",
@@ -23,7 +23,7 @@ export async function sendVerificationTokenMail(email: string, token: string) {
 }
 
 export async function sendPasswordResetTokenMail(email: string, token: string) {
-	const link = `http://localhost:3000/new-password?token=${token}`;
+	const link = `${process.env.ORIGIN}/new-password?token=${token}`;
 
 	await transporter.sendMail({
 		from: "Authjs Template",
