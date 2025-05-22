@@ -18,7 +18,7 @@ export async function sendVerificationTokenMail(email: string, token: string) {
 		from: "Authjs Template",
 		to: email,
 		subject: "Verify Your Email",
-		html: `<p>Click <a href="${link}">Here</a> to verify your email account`,
+		html: `<h2>Click <a href="${link}">Here</a> to verify your email account</h2>`,
 	});
 }
 
@@ -29,6 +29,15 @@ export async function sendPasswordResetTokenMail(email: string, token: string) {
 		from: "Authjs Template",
 		to: email,
 		subject: "Reset Your Password",
-		html: `<p>Click <a href="${link}">Here</a> to reset your password`,
+		html: `<h2>Click <a href="${link}">Here</a> to reset your password</h2>`,
+	});
+}
+
+export async function sendTwoFactorTokenMail(email: string, token: string) {
+	await transporter.sendMail({
+		from: "Authjs Template",
+		to: email,
+		subject: "Two Factor Authentication Code",
+		html: `<h2>This is your Two Factor Authentication Code :<br/> <h1>${token}</h1></h2>`,
 	});
 }

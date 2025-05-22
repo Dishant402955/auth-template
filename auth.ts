@@ -3,10 +3,18 @@ import Credentials from "next-auth/providers/credentials";
 import Google from "next-auth/providers/google";
 import Github from "next-auth/providers/github";
 import { LoginSchema } from "./schemas";
-import { db, getUserByEmail, getUserById, users, accounts } from "./lib/db";
+import {
+	db,
+	getUserByEmail,
+	getUserById,
+	users,
+	accounts,
+	getTwoFactorByUserId,
+} from "./lib/db";
 import bcrypt from "bcryptjs";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
 import { eq } from "drizzle-orm";
+import { twoFactorConfirmation } from "./drizzle/schema";
 
 export const {
 	auth,
@@ -15,7 +23,7 @@ export const {
 	signOut,
 } = NextAuth({
 	session: {
-		strategy: "jwt", // <-- force JWT session instead of database sessions
+		strategy: "jwt",
 	},
 	pages: {
 		signIn: "/login",
@@ -76,6 +84,19 @@ export const {
 
 			if (!existingUser[0].emailVerified) {
 				return false;
+			}
+
+			if (existingUser[0].isTwoFactoredEnabled) {
+				const tfa = await getTwoFactorByUserId(existingUser[0].id);
+
+				if (!tfa) {
+					console.log(tfa);
+					return false;
+				}
+
+				await db
+					.delete(twoFactorConfirmation)
+					.where(eq(twoFactorConfirmation.userId, existingUser[0].id));
 			}
 
 			return true;

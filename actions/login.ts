@@ -5,8 +5,18 @@ import * as z from "zod";
 import { signIn } from "@/auth";
 import { DEFAULT_LOGIN_REDIRECT } from "@/routes";
 import { AuthError } from "next-auth";
-import { generateVerificationToken, getUserByEmail } from "@/lib/db";
-import { sendVerificationTokenMail } from "@/lib/mail";
+import {
+	db,
+	generateTwoFactorToken,
+	generateVerificationToken,
+	getTwoFactorByUserId,
+	getTwoFactorTokenByEmail,
+	getUserByEmail,
+	twoFactorTokens,
+} from "@/lib/db";
+import { sendTwoFactorTokenMail, sendVerificationTokenMail } from "@/lib/mail";
+import { eq } from "drizzle-orm";
+import { twoFactorConfirmation } from "@/drizzle/schema";
 
 export const login = async (values: z.infer<typeof LoginSchema>) => {
 	const validatedFields = LoginSchema.safeParse(values);
@@ -15,7 +25,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 		return { error: "Invalid Fields !" };
 	}
 
-	const { email, password } = validatedFields.data;
+	const { email, password, code } = validatedFields.data;
 
 	const existingUser = await getUserByEmail(email);
 
@@ -34,6 +44,45 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 
 		await sendVerificationTokenMail(email, verification_token?.token!);
 		return { success: "Verification Email Sent !" };
+	}
+
+	if (existingUser[0].isTwoFactoredEnabled && existingUser[0].email) {
+		if (code) {
+			const token = (await getTwoFactorTokenByEmail(
+				existingUser[0].email
+			)) as any;
+
+			if (!token) {
+				return { error: "Invalid code!" };
+			}
+
+			if (token.token !== code) {
+				return { error: "Invalid code!" };
+			}
+
+			const hasExpired = new Date(token.expires) < new Date();
+
+			if (hasExpired) {
+				return { error: "Code  expired!" };
+			}
+
+			await db.delete(twoFactorTokens).where(eq(token.id, twoFactorTokens.id));
+
+			const existingtfc = await getTwoFactorByUserId(existingUser[0].id);
+
+			if (existingtfc) {
+				await db
+					.delete(twoFactorConfirmation)
+					.where(eq(twoFactorConfirmation.userId, existingtfc.userId));
+			}
+			await db
+				.insert(twoFactorConfirmation)
+				.values({ userId: existingUser[0].id });
+		} else {
+			const tfat = await generateTwoFactorToken(email);
+			await sendTwoFactorTokenMail(existingUser[0].email, tfat?.token!);
+			return { twoFactor: true };
+		}
 	}
 
 	try {

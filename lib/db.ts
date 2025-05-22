@@ -15,6 +15,8 @@ import {
 
 import { AdapterAccountType } from "next-auth/adapters";
 import { v4 as uuidv4 } from "uuid";
+import crypto from "crypto";
+import { twoFactorConfirmation } from "@/drizzle/schema";
 
 export const db = drizzle(process.env.DB_URI!);
 
@@ -222,4 +224,65 @@ export const generatePasswordResetToken = async (email: string) => {
 	const verification_token = await getPasswordResetTokenByEmail(email);
 
 	return verification_token;
+};
+
+export const getTwoFactorTokenByEmail = async (email: string) => {
+	try {
+		const token = await db
+			.select()
+			.from(twoFactorTokens)
+			.where(eq(twoFactorTokens.email, email));
+
+		return token[0];
+	} catch (error) {}
+};
+
+export const getTwoFactorTokenByToken = async (token: string) => {
+	try {
+		const res = await db
+			.select()
+			.from(twoFactorTokens)
+			.where(eq(twoFactorTokens.token, token));
+
+		return res[0];
+	} catch (error) {}
+};
+
+export const generateTwoFactorToken = async (email: string) => {
+	const token = crypto.randomInt(10000000, 100000000).toString();
+	const expires = new Date(new Date().getTime() + 900 * 1000);
+	const existingToken = await getTwoFactorTokenByEmail(email);
+
+	if (existingToken) {
+		await db
+			.delete(twoFactorTokens)
+			.where(eq(twoFactorTokens.id, existingToken.id));
+	}
+
+	await db.insert(twoFactorTokens).values({
+		email,
+		token,
+		expires,
+	});
+
+	const verification_token = await getTwoFactorTokenByEmail(email);
+
+	return verification_token;
+};
+
+export const getTwoFactorByUserId = async (userId: any) => {
+	try {
+		const TwoFactorConfirmation = await db
+			.select()
+			.from(twoFactorConfirmation)
+			.where(eq(userId, twoFactorConfirmation.userId));
+
+		if (!TwoFactorConfirmation[0]) {
+			return null;
+		}
+
+		return TwoFactorConfirmation[0];
+	} catch (error) {
+		return null;
+	}
 };
