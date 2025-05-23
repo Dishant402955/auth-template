@@ -107,6 +107,11 @@ export const {
 			session.user.id = token.sub as string;
 			session.user.role = token.role as "ADMIN" | "USER";
 
+			if (token.isTwoFactorEnabled) {
+				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as
+					| boolean
+					| null;
+			}
 			return session;
 		},
 
@@ -122,6 +127,8 @@ export const {
 			}
 
 			token.role = existingUser[0].role;
+
+			token.isTwoFactorEnabled = existingUser[0].isTwoFactoredEnabled;
 			return token;
 		},
 	},
