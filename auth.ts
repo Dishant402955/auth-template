@@ -10,6 +10,7 @@ import {
 	users,
 	accounts,
 	getTwoFactorByUserId,
+	getAccountByUserId,
 } from "./lib/db";
 import bcrypt from "bcryptjs";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
@@ -106,12 +107,14 @@ export const {
 
 			session.user.id = token.sub as string;
 			session.user.role = token.role as "ADMIN" | "USER";
+			session.user.name = token.name;
+			session.user.email = token.email!;
+			session.user.isOAuth = token.isOAuth as boolean;
 
-			if (token.isTwoFactorEnabled) {
-				session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as
-					| boolean
-					| null;
-			}
+			session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as
+				| boolean
+				| null;
+
 			return session;
 		},
 
@@ -126,9 +129,14 @@ export const {
 				return token;
 			}
 
-			token.role = existingUser[0].role;
+			const existingAccount = await getAccountByUserId(existingUser[0].id);
 
+			token.isOAuth = !!existingAccount as boolean;
+			token.name = existingUser[0].name;
+			token.email = existingUser[0].email;
+			token.role = existingUser[0].role;
 			token.isTwoFactorEnabled = existingUser[0].isTwoFactoredEnabled;
+
 			return token;
 		},
 	},

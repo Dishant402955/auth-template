@@ -286,3 +286,20 @@ export const getTwoFactorByUserId = async (userId: any) => {
 		return null;
 	}
 };
+
+export const getAccountByUserId = async (userId: any) => {
+	try {
+		const account = await db
+			.select()
+			.from(accounts)
+			.where(eq(userId, accounts.userId));
+
+		if (!account[0]) {
+			return null;
+		}
+
+		return account[0];
+	} catch (error) {
+		return null;
+	}
+};
