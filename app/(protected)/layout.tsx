@@ -6,6 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { auth } from "@/auth";
 import Navbar from "./_components/navbar";
 import Link from "next/link";
+import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
 	title: "Protected Pages",
@@ -26,6 +27,7 @@ const ProtectedLayout = async ({ children }: { children: React.ReactNode }) => {
 
 					<Navbar />
 					{children}
+					<Toaster />
 				</body>
 			</html>
 		</SessionProvider>
