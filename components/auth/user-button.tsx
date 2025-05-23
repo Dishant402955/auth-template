@@ -25,10 +25,13 @@ export const UserButton = () => {
 					</AvatarFallback>
 				</Avatar>
 			</DropdownMenuTrigger>
-			<DropdownMenuContent className="w-30" align="end">
+			<DropdownMenuContent
+				className="w-30 bg-neutral-950 text-white"
+				align="end"
+			>
 				<LogOutButton>
-					<DropdownMenuItem className="flex gap-x-2 items-center cursor-pointer">
-						<IoExitOutline color="#000000" />
+					<DropdownMenuItem className="flex gap-x-2 items-center cursor-pointer ">
+						<IoExitOutline color="#FFFFFF" />
 						Sign Out
 					</DropdownMenuItem>
 				</LogOutButton>

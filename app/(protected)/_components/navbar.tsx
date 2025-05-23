@@ -9,7 +9,7 @@ const Navbar = () => {
 	const pathname = usePathname();
 
 	return (
-		<nav className="bg-neutral-100/50 p-4 flex justify-between items-center rounded-xl w-[600px] text-neutral-950">
+		<nav className="bg-neutral-100/10 p-4 flex justify-between items-center rounded-xl w-[600px] text-neutral-950">
 			<div className="flex gap-x-3">
 				<Button
 					variant={pathname === "/server" ? "default" : "outline"}
