@@ -4,7 +4,7 @@
 To add any new route to the project head to the /routes.ts file and if the route is public then append the public routes list and if it is private then you are already done cause every unmentioned route is private by-default.
 
 <br>
-
+<h5>Note : For this project UI is not a center of focus, so i hope you know what i mean.</h5>
 <h3> Features :</h3>
 - Credentials, Google, GitHub login <br>
 - 2 Factor Authentication (through email only)<br>
