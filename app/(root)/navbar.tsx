@@ -1,6 +1,5 @@
 "use client";
 
-import UserProfile from "@/components/auth/user-profile";
 import { Button } from "@/components/ui/button";
 import { LoginButton } from "@/components/auth/login-button";
 import { useCurrentUser } from "@/hooks/use-current-user";
@@ -12,11 +11,18 @@ const Navbar = () => {
 	return (
 		<div className=" absolute top-4 left-6 ">
 			{!user && (
-				<LoginButton mode={"redirect"}>
-					<Button variant={"secondary"} size={"lg"} className={"m-2"}>
-						Sign In
-					</Button>
-				</LoginButton>
+				<>
+					<LoginButton mode={"redirect"} asChild>
+						<Button variant={"secondary"} size={"lg"} className={"m-2"}>
+							Sign In (redirect)
+						</Button>
+					</LoginButton>
+					<LoginButton mode={"modal"} asChild>
+						<Button variant={"secondary"} size={"lg"} className={"m-2"}>
+							Sign In (Modal)
+						</Button>
+					</LoginButton>
+				</>
 			)}
 
 			{user && <UserButton />}
