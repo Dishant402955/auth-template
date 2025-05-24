@@ -37,12 +37,12 @@ const UserInfo = ({ user, label }: { user?: ExtendedUser; label: string }) => {
 					<p className="text-sm font-medium">Two Factor Authentication</p>
 					<p
 						className={`truncate text-xs max-w-[160px] font-mono p-1 ${
-							user?.isTwoFactorEnabled
+							user?.isTwoFactoredEnabled
 								? "bg-emerald-400"
 								: "bg-destructive text-white"
 						} rounded-md`}
 					>
-						{user?.isTwoFactorEnabled ? "ON" : "OFF"}
+						{user?.isTwoFactoredEnabled ? "ON" : "OFF"}
 					</p>
 				</div>
 			</CardContent>

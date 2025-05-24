@@ -110,10 +110,7 @@ export const {
 			session.user.name = token.name;
 			session.user.email = token.email!;
 			session.user.isOAuth = token.isOAuth as boolean;
-
-			session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as
-				| boolean
-				| null;
+			session.user.isTwoFactoredEnabled = token.isTwoFactoredEnabled as boolean;
 
 			return session;
 		},
@@ -135,7 +132,9 @@ export const {
 			token.name = existingUser[0].name;
 			token.email = existingUser[0].email;
 			token.role = existingUser[0].role;
-			token.isTwoFactorEnabled = existingUser[0].isTwoFactoredEnabled;
+			token.isTwoFactoredEnabled = existingUser[0].isTwoFactoredEnabled as
+				| boolean
+				| null;
 
 			return token;
 		},

@@ -47,13 +47,12 @@ const Settings = () => {
 			email: user?.email || undefined,
 			password: undefined,
 			newPassword: undefined,
-			isTwoFactorEnabled: user?.isTwoFactorEnabled || undefined,
+			isTwoFactoredEnabled: user?.isTwoFactoredEnabled || undefined,
 		},
 	});
 
 	const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
 		startTransition(() => {
-			console.log(values);
 			settings(values)
 				.then((data) => {
 					setError("");
@@ -191,7 +190,7 @@ const Settings = () => {
 							{!user?.isOAuth ? (
 								<FormField
 									control={form.control}
-									name="isTwoFactorEnabled"
+									name="isTwoFactoredEnabled"
 									render={({ field }) => (
 										<FormItem className="flex justify-between items-center rounded-lg border p-3 shadow-sm bg-neutral-700 text-white">
 											<div className="space-y-0.5">

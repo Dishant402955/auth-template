@@ -11,7 +11,7 @@ export const SettingsSchema = z
 		name: z.optional(
 			z.string().min(1, { message: "Min 1 Character required!" })
 		),
-		isTwoFactorEnabled: z.optional(z.boolean()),
+		isTwoFactoredEnabled: z.optional(z.boolean()),
 		role: z.enum(["ADMIN", "USER"]),
 		email: z.optional(z.string().email()),
 		password: z.optional(z.string().min(6)),

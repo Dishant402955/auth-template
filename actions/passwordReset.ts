@@ -12,7 +12,10 @@ import {
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
 
-export const newPassword = async ({ password }, token: string) => {
+export const newPassword = async (
+	{ password }: { password: string },
+	token: string
+) => {
 	const existingToken = (await getPasswordResetTokenByToken(token)) as any;
 
 	if (!existingToken) {
