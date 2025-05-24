@@ -26,17 +26,17 @@ export const LoginButton = ({
 		router.push("/login");
 	};
 
-	if (mode == "modal") {
-		return (
-			<Dialog>
-				<DialogTrigger asChild={asChild}>{children}</DialogTrigger>
-				<DialogContent className="p-0 w-auto bg-transparent border-none">
-					<DialogTitle>Login</DialogTitle>
-					<LoginForm />
-				</DialogContent>
-			</Dialog>
-		);
-	}
+	// if (mode == "modal") {
+	// 	return (
+	// 		<Dialog>
+	// 			<DialogTrigger asChild={asChild}>{children}</DialogTrigger>
+	// 			<DialogContent className="p-0 w-auto bg-transparent border-none">
+	// 				<DialogTitle>Login</DialogTitle>
+	// 				<LoginForm />
+	// 			</DialogContent>
+	// 		</Dialog>
+	// 	);
+	// }
 	return (
 		<span className={"cursor-pointer"} onClick={onClick}>
 			{children}

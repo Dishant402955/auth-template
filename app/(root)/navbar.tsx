@@ -17,11 +17,11 @@ const Navbar = () => {
 							Sign In (redirect)
 						</Button>
 					</LoginButton>
-					<LoginButton mode={"modal"} asChild>
+					{/* <LoginButton mode={"modal"} asChild>
 						<Button variant={"secondary"} size={"lg"} className={"m-2"}>
 							Sign In (Modal)
 						</Button>
-					</LoginButton>
+					</LoginButton> */}
 				</>
 			)}
 
