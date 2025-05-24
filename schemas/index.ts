@@ -14,8 +14,8 @@ export const SettingsSchema = z
 		isTwoFactoredEnabled: z.optional(z.boolean()),
 		role: z.enum(["ADMIN", "USER"]),
 		email: z.optional(z.string().email()),
-		password: z.optional(z.string().min(6)),
-		newPassword: z.optional(z.string().min(6)),
+		password: z.optional(z.string()),
+		newPassword: z.optional(z.string()),
 	})
 	.refine(
 		(data) => {

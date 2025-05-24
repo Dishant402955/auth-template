@@ -35,6 +35,9 @@ import { Switch } from "@/components/ui/switch";
 
 const Settings = () => {
 	const user = useCurrentUser();
+
+	if (!user) return <div>Loading user...</div>;
+
 	const { update } = useSession();
 	const [error, setError] = useState<string | undefined>();
 	const [success, setSuccess] = useState<string | undefined>();
@@ -45,15 +48,19 @@ const Settings = () => {
 		defaultValues: {
 			name: user?.name || undefined,
 			email: user?.email || undefined,
-			password: undefined,
-			newPassword: undefined,
+			password: "",
+			newPassword: "",
 			isTwoFactoredEnabled: user?.isTwoFactoredEnabled || undefined,
 		},
 	});
 
 	const onSubmit = (values: z.infer<typeof SettingsSchema>) => {
 		startTransition(() => {
-			settings(values)
+			const filteredValues = { ...values };
+
+			if (!filteredValues.password) delete filteredValues.password;
+			if (!filteredValues.newPassword) delete filteredValues.newPassword;
+			settings(filteredValues)
 				.then((data) => {
 					setError("");
 					setSuccess("");
