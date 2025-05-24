@@ -18,7 +18,10 @@ import { sendTwoFactorTokenMail, sendVerificationTokenMail } from "@/lib/mail";
 import { eq } from "drizzle-orm";
 import { twoFactorConfirmation } from "@/drizzle/schema";
 
-export const login = async (values: z.infer<typeof LoginSchema>) => {
+export const login = async (
+	values: z.infer<typeof LoginSchema>,
+	callBackUrl: string | null
+) => {
 	const validatedFields = LoginSchema.safeParse(values);
 
 	if (!validatedFields.success) {
@@ -90,7 +93,7 @@ export const login = async (values: z.infer<typeof LoginSchema>) => {
 			email,
 			password,
 			redirect: true,
-			redirectTo: DEFAULT_LOGIN_REDIRECT,
+			redirectTo: callBackUrl || DEFAULT_LOGIN_REDIRECT,
 		});
 	} catch (error) {
 		if (error instanceof AuthError) {
