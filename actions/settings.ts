@@ -48,7 +48,6 @@ export const settings = async (values: z.infer<typeof SettingsSchema>) => {
 		return { success: "Verification Email Sent!" };
 	}
 
-	console.log(values);
 	if (values.password && values.newPassword && dbUser[0].password) {
 		const passwordMatch = await bcrypt.compare(
 			values.password,
