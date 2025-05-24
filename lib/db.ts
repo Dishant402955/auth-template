@@ -9,7 +9,6 @@ import {
 	text,
 	primaryKey,
 	integer,
-	varchar,
 	pgEnum,
 } from "drizzle-orm/pg-core";
 

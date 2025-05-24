@@ -4,10 +4,8 @@ import {
 	db,
 	getPasswordResetTokenByToken,
 	getUserByEmail,
-	getVerificationTokenByToken,
 	passwordResetTokens,
 	users,
-	verificationTokens,
 } from "@/lib/db";
 import bcrypt from "bcryptjs";
 import { eq } from "drizzle-orm";
