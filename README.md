@@ -7,7 +7,7 @@ To add any new route to the project head to the /routes.ts file and if the route
 <h5>Note : For this project UI is not a center of focus, so i hope you know what i mean.</h5>
 <h3> Features :</h3>
 - Credentials, Google, GitHub login <br>
-- 2 Factor Authentication (through email only)<br>
+- 2 Factor Authentication (currently through email only)<br>
 - Role-Based Access <br>
 - Client & Server Components Examples <br>
 - Forgot Password (for Credentials Providers Only)<br>
@@ -35,7 +35,7 @@ GOOGLE_CLIENT_ID=
 GOOGLE_CLIENT_SECRET=
 
 
-// head to myaccounts.google.com and get "app password" (might have to turn on 2FA if not)
+// head to myaccount.google.com and get "app password" (might have to turn on 2FA if not)
 EMAIL_USER=
 EMAIL_PASS=
 
